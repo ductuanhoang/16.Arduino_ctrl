@@ -1,0 +1,71 @@
+There are 3 screens:
+
+A- Home screen
+shows current value and set value of Temp, Humidity, Co2, and the atmospheric pressure.
+
+	
+B- automatic control screen
+1- Temperature
+2- Humidity
+3- CO2
+
+
+
+1- Temperature
+Temp Set: 0 F - 120 F  default 80
+Temp_Down_Differetial : 1 F - 50 F default 3
+Temp_Up_Differential: 1 F-50 default 3
+High Temp Alarm: 0F - 200 F default 95 F
+Low Temp alarm: 0F-200F default 65
+
+2- Humidity
+Humidity_set: 0% - 100% default 80%
+Humidity_Down_Differential: 0%-100% default 5%
+Humidity_Up_Differential: 0%-200% default 5%
+High humidity alarm: 0%-200% relative humidity default 110%
+Low humidity alarm: 0%-200% default 50
+
+
+3- Co2
+CO2 Set: 0-10000ppm dafault 500
+High Co2 alarm: 0 - 10000 ppm default 9000
+
+
+
+C- Manual control screen
+Heat On/OFF automatic
+Fog ON/OFF automatic
+Fan ON/OFF/cycle automatic  (Cycle button has a menu shown below)
+Alarms ON/OFF/ Automatic
+
+Cycle
+Fan ON time 0 - 1000 seconds default 20
+Fan OFF time 0-1000 seconds default 300
+(Fan cycles between ON and oFF forever for exmample default values above will cause the fan to turn ON for 20 secnds, then OFF for 300 seconds)
+
+
+Alarm Relay
+ON when Float sensor switch is OFF (open)
+ON when High heat alarm or high humidity alarm or high co2 alarm is ON
+
+
+Heat Relay
+ON when Temp_measured =<Temp_Set - Temp_Down_differential (example if set to 80 and differential is 1 the heat will turn on at 79)
+OFF when Temp_measured =>Temp_Set
+
+Fog Relay
+ON when Humidity_measured =< Humidity_Set-Humidity_Down_Differential
+OFF when Humidity_measured => Humidity_set
+
+Fan Relay
+
+ON When Heat_Relay is ON
+ON When Fog_Relay is ON
+ON when Temp_Measured =>Temp_up_Limit
+ON when Humidity_measured =>Humidity_Set +Humidity_Up_Differential
+OFF when Temp Measured =<Temp_Set
+OFF when Humidity_Measured =<Humidity_Set
+ON When Co2_Measured =>Co2_Set+Co2_UP_Differential
+OFF when Co2_Measured =<Co2_set
+
+
