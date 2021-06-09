@@ -14,6 +14,9 @@
 #include "heater_on.h"
 #include "fog_on.h"
 #include "Common.h"
+#include "esp_system.h"
+#include "esp_adc_cal.h"
+#include "driver/adc.h"
 
 TFT_eSPI tft = TFT_eSPI(); /* TFT instance */
 static lv_disp_buf_t disp_buf;
@@ -28,6 +31,7 @@ void my_print(lv_log_level_t level, const char *file, uint32_t line, const char 
     Serial.flush();
 }
 #endif
+
 setting_param_t setting_param;
 sensor_value_t sensor_value;
 
@@ -78,7 +82,7 @@ bool read_encoder(lv_indev_drv_t *indev, lv_indev_data_t *data)
     int btn_state = LV_INDEV_STATE_REL; /* Dummy - no press */
 
     data->enc_diff = diff - last_diff;
-    
+
     data->state = btn_state;
 
     last_diff = diff;
@@ -93,7 +97,7 @@ lv_obj_t *label5;
 void setup()
 {
     Serial.begin(115200); /* prepare for possible serial debug */
-
+    buttons_init();
     lv_init();
 
 #if USE_LV_LOG != 0
@@ -123,21 +127,29 @@ void setup()
 
     /* Create simple label */
     // user_test_icon();
-    // screen_init();
-    setting_screen_title(0);
+    setting_screen_title(E_SETTING_FOG);
     // menu_page_init();
+    Serial.println("check");
 };
 uint8_t page_count = 0;
+uint16_t test_count;
 void loop()
 {
     lv_task_handler(); /* let the GUI do its work */
     // set_blink_icon();
-    screen_selected(page_count);
+    // screen_selected(page_count);
+    setting_screen_load_value(0, 0, 0, 1, test_count);
     if (page_count == 0)
         page_count = 1;
     else
         page_count = 0;
-    delay(1000);
+    e_buttons_name button = button_process();
+    if (button == E_BUTTON_UP)
+        test_count = 5;
+    else if (button == E_BUTTON_DOWN)
+        test_count = 0;
+    Serial.println(test_count);
+    delay(10);
 }
 
 bool status_label_4 = false;

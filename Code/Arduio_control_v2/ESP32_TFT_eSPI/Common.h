@@ -31,6 +31,13 @@
 #include <stddef.h>
 #include <stdbool.h>
 
+typedef enum e_setting_page
+{
+    E_SETTING_TEMP,
+    E_SETTING_FOG,
+    E_SETTING_CO2,
+};
+
 typedef struct
 {
     /* data */
@@ -56,6 +63,16 @@ typedef struct
     float humidity;
     float Co2;
 } sensor_value_t;
+
+typedef enum
+{
+    E_BUTTON_NONE = 0,
+    E_BUTTON_UP = 1,
+    E_BUTTON_DOWN,
+    E_BUTTON_RIGHT,
+    E_BUTTON_LEFT,
+    E_BUTTON_SELECT,
+}e_buttons_name;
 
 extern setting_param_t setting_param;
 extern sensor_value_t sensor_value;

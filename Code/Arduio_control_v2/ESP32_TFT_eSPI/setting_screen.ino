@@ -6,12 +6,6 @@ lv_obj_t *setting_screen;
 
 LV_IMG_DECLARE(back_free_status);
 LV_IMG_DECLARE(back_selected);
-typedef enum e_setting_page
-{
-    E_SETTING_TEMP,
-    E_SETTING_FOG,
-    E_SETTING_CO2,
-};
 
 void setting_page_init(void)
 {
@@ -87,22 +81,23 @@ void setting_screen_title(uint8_t type_page)
     lv_obj_set_width(label51, 120);
     lv_obj_align(label51, NULL, LV_ALIGN_IN_TOP_LEFT, 0, 105 + 25);
 
-    setting_screen_value();
+    setting_screen_value(0, 0, 0, 1, 0);
     lv_scr_load(setting_screen);
 }
+
 lv_obj_t *label_set;
 lv_obj_t *label_uplag;
 lv_obj_t *label_dowlag;
 lv_obj_t *label_hi_alr;
 lv_obj_t *label_low_alr;
 
-void setting_screen_value()
+void setting_screen_value(uint16_t set_value, uint16_t uplag_value, uint16_t dowlag_value, uint16_t hi_alr_value, uint16_t lo_alr_value)
 {
     label_set = lv_label_create(setting_screen, NULL);
     lv_label_set_long_mode(label_set, LV_LABEL_LONG_BREAK); /*Break the long lines*/
     lv_label_set_recolor(label_set, true);                  /*Enable re-coloring by commands in the text*/
     lv_label_set_align(label_set, LV_LABEL_ALIGN_LEFT);     /*Center aligned lines*/
-    lv_label_set_text(label_set, "77");
+    lv_label_set_text_fmt(label_set, "%d", set_value);
     lv_obj_set_width(label_set, 120);
     lv_obj_align(label_set, NULL, LV_ALIGN_IN_TOP_LEFT, 90, 30);
 
@@ -110,7 +105,7 @@ void setting_screen_value()
     lv_label_set_long_mode(label_uplag, LV_LABEL_LONG_BREAK); /*Break the long lines*/
     lv_label_set_recolor(label_uplag, true);                  /*Enable re-coloring by commands in the text*/
     lv_label_set_align(label_uplag, LV_LABEL_ALIGN_LEFT);     /*Center aligned lines*/
-    lv_label_set_text(label_uplag, "2");
+    lv_label_set_text_fmt(label_uplag, "%d", uplag_value);
     lv_obj_set_width(label_uplag, 120);
     lv_obj_align(label_uplag, NULL, LV_ALIGN_IN_TOP_LEFT, 90, 55);
 
@@ -118,7 +113,7 @@ void setting_screen_value()
     lv_label_set_long_mode(label_dowlag, LV_LABEL_LONG_BREAK); /*Break the long lines*/
     lv_label_set_recolor(label_dowlag, true);                  /*Enable re-coloring by commands in the text*/
     lv_label_set_align(label_dowlag, LV_LABEL_ALIGN_LEFT);     /*Center aligned lines*/
-    lv_label_set_text(label_dowlag, "2");
+    lv_label_set_text_fmt(label_dowlag, "%d", dowlag_value);
     lv_obj_set_width(label_dowlag, 120);
     lv_obj_align(label_dowlag, NULL, LV_ALIGN_IN_TOP_LEFT, 90, 80);
 
@@ -126,7 +121,7 @@ void setting_screen_value()
     lv_label_set_long_mode(label_hi_alr, LV_LABEL_LONG_BREAK); /*Break the long lines*/
     lv_label_set_recolor(label_hi_alr, true);                  /*Enable re-coloring by commands in the text*/
     lv_label_set_align(label_hi_alr, LV_LABEL_ALIGN_LEFT);     /*Center aligned lines*/
-    lv_label_set_text(label_hi_alr, "90");
+    lv_label_set_text_fmt(label_hi_alr, "%d", hi_alr_value);
     lv_obj_set_width(label_hi_alr, 120);
     lv_obj_align(label_hi_alr, NULL, LV_ALIGN_IN_TOP_LEFT, 70, 105);
 
@@ -134,11 +129,19 @@ void setting_screen_value()
     lv_label_set_long_mode(label_low_alr, LV_LABEL_LONG_BREAK); /*Break the long lines*/
     lv_label_set_recolor(label_low_alr, true);                  /*Enable re-coloring by commands in the text*/
     lv_label_set_align(label_low_alr, LV_LABEL_ALIGN_LEFT);     /*Center aligned lines*/
-    lv_label_set_text(label_low_alr, "60");
+    lv_label_set_text_fmt(label_low_alr, "%d", lo_alr_value);
     lv_obj_set_width(label_low_alr, 120);
     lv_obj_align(label_low_alr, NULL, LV_ALIGN_IN_TOP_LEFT, 70, 105 + 25);
+
+    
 }
 
-void setting_page_process(void)
+void setting_screen_load_value(uint16_t set_value, uint16_t uplag_value, uint16_t dowlag_value, uint16_t hi_alr_value, uint16_t lo_alr_value)
 {
+    lv_label_set_text_fmt(label_set, "%d", set_value);
+    lv_label_set_text_fmt(label_uplag, "%d", uplag_value);
+    lv_label_set_text_fmt(label_dowlag, "%d", dowlag_value);
+    lv_label_set_text_fmt(label_hi_alr, "%d", hi_alr_value);
+    lv_label_set_text_fmt(label_low_alr, "%d", lo_alr_value);
+    lv_scr_load(setting_screen);
 }
